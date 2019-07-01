@@ -1,0 +1,2 @@
+# BamazonStore
+The new Amazon.
