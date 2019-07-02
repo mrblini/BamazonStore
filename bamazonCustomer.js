@@ -22,44 +22,7 @@ connection.connect(function (err) {
 });
 
 
-// ------------------------------- USER INPUT
-// function searchStore() {
-//     // prompt for info about the item being put up for auction
-//     inquirer
-//         .prompt([
-//             {
-//                 name: "product_id",
-//                 type: "input",
-//                 message: "What is the ID of the product that you would like to buy?"
-//             },
-//             {
-//                 name: "product_amount",
-//                 type: "input",
-//                 message: "How many units of that product would you like to buy?"
-//             },
-//             {
-//                 name: "startingBid",
-//                 type: "input",
-//                 message: "How many units of that product would you like to buy?",
-//                 validate: function (value) {
-//                     if (isNaN(value) === false) {
-//                         return true;
-//                     }
-//                     return false;
-//                 }
-//             }
-//         ])
-//         .then(function (answer) {
-//             // when finished prompting, insert a new item into the db with that info
-//             connection.query(
-//                 console.log("done")
-//             );
-//         });
-// }
-
-// searchStore()
-
-
+// ------------------------------- PRODUCT AMOUNT
 function productAmountSearch() {
     inquirer
         .prompt([
@@ -83,6 +46,22 @@ function productAmountSearch() {
             */
            productID = obj.productID
            productAmount = obj.productAmount
+        
+            var myQuery = "select stock_quantity from products where item_id ="
+
+            connection.query(myQuery + productID, function(err, res) {
+                var productsAvailable = 
+                    if (productAmount > productsAvailable) {
+                        console.log("There isn't enough of that product, pick smaller size.")
+                    }
+                    else {
+
+                    }
+
+                }
+            })
+
+            
 
             var query = "SELECT item_id, stock_quantity";
             query += "FROM products WHERE item_id = " + productID;
