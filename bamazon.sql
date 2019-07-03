@@ -1,4 +1,6 @@
 
+
+-- ---------------------------- CREATE DATABASE
 DROP DATABASE IF EXISTS bamazon;
 
 CREATE DATABASE bamazon;
@@ -6,7 +8,7 @@ CREATE DATABASE bamazon;
 USE bamazon;
 
 
--- ---------------------------- 
+-- ---------------------------- CREATE TABLE
 CREATE TABLE products
 (
     item_id int
@@ -21,12 +23,12 @@ CREATE TABLE products
     (item_id)
 );
 
--- ---------------------------- 
 
+-- ---------------------------- INSERT
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
 VALUES
-    ("socks", "clothes", 12, 4);
+    ("socks", "clothes", 12, 15);
 
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
@@ -36,22 +38,22 @@ VALUES
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
 VALUES
-    ("shoes", "clothes", 150, 4);
+    ("shoes", "clothes", 150, 2);
 
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
 VALUES
-    ("jacket", "clothes", 480, 4);
+    ("jacket", "clothes", 480, 7);
 
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
 VALUES
-    ("hoodie", "clothes", 18, 4);
+    ("hoodie", "clothes", 18, 9);
 
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
 VALUES
-    ("shirt", "clothes", 22, 2);
+    ("shirt", "clothes", 22, 5);
 
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
@@ -66,7 +68,7 @@ VALUES
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
 VALUES
-    ("hat", "clothes", 38, 2);
+    ("hat", "clothes", 38, 12);
 
 INSERT INTO products
     (product_name, department_name, price, stock_quantity)
@@ -74,17 +76,19 @@ VALUES
     ("glasses", "clothes", 280, 1);
 
 
--- ---------------------------- 
+-- ---------------------------- SHOW TABLE
+select *
+from products
+
+
+-- ---------------------------- UPDATE ITEM
 UPDATE products
 SET stock_quantity = 2
 WHERE product_id = 4;
 
 
--- ---------------------------- 
-select * from products
 
-
--- ---------------------------- 
+-- ---------------------------- SELECT
 -- show ALL books with authors
 -- INNER JOIN will only return all matching values from both tables
 SELECT title, firstName, lastName

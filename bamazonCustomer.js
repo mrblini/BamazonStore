@@ -8,101 +8,95 @@ var connection = mysql.createConnection({
     // Your port; if not 3306
     port: 3306,
 
-    // Your username
     user: "root",
 
-    // Your password
     password: "rootroot",
+
     database: "bamazon"
 });
 
 connection.connect(function (err) {
     if (err) throw err;
-    runSearch();
+    showProducts();
 });
 
 
-// ------------------------------- PRODUCT AMOUNT
-function productAmountSearch() {
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                name: "productID",
-                message: "What is the ID of the product that you would like to buy?"
-            },
-            {
-                type: "input",
-                name: "productAmount",
-                message: "What is the ID of the product that you would like to buy?"
-            }
-        ])
-        .then(function (obj) {
-            /*
-            obj = {
-                productID: someValue,
-                productAmount: someValue
-            }
-            */
-           productID = obj.productID
-           productAmount = obj.productAmount
+
+// ------------------------------- SHOW PRODUCTS
+function showProducts() {
+    myQuery = "select * from products"
+
+    connection.query(myQuery, function (err, res) {
+        for (var i = 0; i < res.length; i++) {
+            console.log(
+                i + 1 + ".) " +
+                "Product ID: " + res[i].item_id +
+                " || Product name: " + res[i].product_name +
+                " || Product quantity: " + res[i].stock_quantity
+            )
+        }
+    })
         
-            var myQuery = "select stock_quantity from products where item_id ="
-
-            connection.query(myQuery + productID, function(err, res) {
-                var productsAvailable = 
-                    if (productAmount > productsAvailable) {
-                        console.log("There isn't enough of that product, pick smaller size.")
-                    }
-                    else {
-
-                    }
-
-                }
-            })
-
-            
-
-            var query = "SELECT item_id, stock_quantity";
-            query += "FROM products WHERE item_id = " + productID;
-
-            connection.query(query, [answer.artist, answer.artist], function (err, res) {
-                console.log(res.length + " matches found!");
-                for (var i = 0; i < res.length; i++) {
-                    console.log(
-                        i + 1 + ".) " +
-                        "Year: " +
-                        res[i].year +
-                        " Album Position: " +
-                        res[i].position +
-                        " || Artist: " +
-                        res[i].artist +
-                        " || Song: " +
-                        res[i].song +
-                        " || Album: " +
-                        res[i].album
-                    );
-                }
-
-                runSearch();
-            });
-        });
+    setTimeout( function() {
+        requestProduct()
+    }, 1000)
 }
 
-productAmountSearch()
 
+// ------------------------------- PRODUCT AMOUNT
+function requestProduct() {
+    inquirer.prompt([
+        {
+            name: "productID",
+            type: "input",
+            message: "What is the ID of the product that you would like to buy?",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        },
+        {
+            name: "productAmount",
+            type: "input",
+            message: "How many products of that kind would you like to buy?",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        },
+    ])
+    .then(function(obj) {
+         console.log(obj)
+        /*
+        obj = {
+            productID: someValue,
+            productAmount: someValue
+        } */
+        productID = obj.productID
+        productAmount = obj.productAmount
+        // console.log(productID)
+        // console.log(productAmount)
+        
+        var myQuery = "select stock_quantity from products where item_id = ";
+        myQuery += productID;
 
-// connection.connect(function (err) {
-//     if (err) throw err;
-//     console.log("connected as id " + connection.threadId + "\n");
-//     readColleges();
-// });
+        connection.query(myQuery, function(err, res) {
+            console.log(res)
 
-// function readColleges() {
-//     connection.query("SELECT name FROM colleges", function (err, res) {
-//         if (err) throw err;
+            var productsAvailable = res[0].stock_quantity;
+            console.log("Products available: " + productsAvailable)
+            
 
-//         // Log all results of the SELECT statement
-//         console.log(res);
-//         connection.end();
-//     });
+            if (productAmount > productsAvailable) {
+                console.log("There isn't enough of that product, pick a smaller size.")
+            }
+            else {
+                console.log("Congrats my brother, you have purchased " + productAmount + " of the item_id: " + productID)
+            }
+        })
+    })
+}
