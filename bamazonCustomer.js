@@ -96,7 +96,32 @@ function requestProduct() {
             }
             else {
                 console.log("Congrats my brother, you have purchased " + productAmount + " of the item_id: " + productID)
+
+                var productRemaining = productsAvailable - productAmount;
+                updateProductQuantity(productID, productRemaining)
             }
         })
     })
 }
+
+function updateProductQuantity(productID, productRemaining) {
+    myQuery = "select * from products"
+
+    var aQuery = "update products "
+    aQuery += "set stock_quantity = 32"
+    // aQuery += productRemaining
+    aQuery += "where item_id = 9"
+    // aQuery += productID;
+
+    connection.query(myQuery, function(err, res) {
+        console.log("Inside connection aQuery")
+        console.log(res)
+        res[0].stock_quantity = 44;
+    })
+
+    setTimeout(function () {
+        showProducts()
+    }, 500)
+}
+
+
