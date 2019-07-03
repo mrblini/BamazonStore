@@ -84,6 +84,7 @@ function requestProduct() {
         var myQuery = "select stock_quantity from products where item_id = ";
         myQuery += productID;
 
+        // -------------------- QUERY
         connection.query(myQuery, function(err, res) {
             console.log(res)
 
@@ -97,6 +98,7 @@ function requestProduct() {
             else {
                 console.log("Congrats my brother, you have purchased " + productAmount + " of the item_id: " + productID)
 
+                var productRemaining = 0;
                 var productRemaining = productsAvailable - productAmount;
                 updateProductQuantity(productID, productRemaining)
             }
@@ -105,23 +107,29 @@ function requestProduct() {
 }
 
 function updateProductQuantity(productID, productRemaining) {
-    myQuery = "select * from products"
+    console.log("---inside---")
+    console.log("-->productRemaining: " + productRemaining)
+    console.log("-->productID: " + productID)
 
-    var aQuery = "update products "
-    aQuery += "set stock_quantity = 32"
-    // aQuery += productRemaining
-    aQuery += "where item_id = 9"
-    // aQuery += productID;
+    var aQuery = "update products ";
+    aQuery += "set stock_quantity = ";
+    aQuery += productRemaining;
+    aQuery += "where item_id = ";
+    aQuery += productID;
 
-    connection.query(myQuery, function(err, res) {
-        console.log("Inside connection aQuery")
+    var aa = "update products set stock_quantity = ";
+    aa += "16 "; 
+    aa += " where item_id = 10";
+
+    // -------------------- QUERY 
+    connection.query(aa, function(err, res) {
         console.log(res)
-        res[0].stock_quantity = 44;
+        // res[0].stock_quantity = 44;
     })
 
     setTimeout(function () {
         showProducts()
-    }, 500)
+    }, 1000)
 }
 
 
